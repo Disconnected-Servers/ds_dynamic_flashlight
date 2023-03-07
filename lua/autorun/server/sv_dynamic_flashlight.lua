@@ -9,6 +9,7 @@ end
 hook.Add("PlayerSwitchFlashlight", "dynamic_flashlight", function(ply, state)
     if not IsValid(ply) then return end
     if ply:GetObserverMode() ~= OBS_MODE_NONE then return end
+    
     ply:SetNWBool("DynamicFlashlight", not ply:GetNWBool("DynamicFlashlight"))
     --ply:EmitSound("items/flashlight1.wav", 60, 100)
     ply:EmitSound("HL2Player.FlashLightOn")
@@ -32,6 +33,12 @@ hook.Add("PlayerSilentDeath", "dynamic_flashlight", function(ply)
     if not IsValid(ply) then return end
 
     ply:SetNWBool("DynamicFlashlight", false)
+end)
+
+hook.Add("PostCleanupMap", "dynamic_flashlight", function()
+    for _, ply in pairs(player.GetAll()) do
+        ply:SetNWBool("DynamicFlashlight", false)
+    end
 end)
 
 if engine.ActiveGamemode() == "prop_hunt" then

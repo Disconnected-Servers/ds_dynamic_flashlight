@@ -1,9 +1,8 @@
-local cache = {}
-
 local insert = table.insert
 local remove = table.remove
 local PLAYER = FindMetaTable("Player")
 
+local cache = {}
 
 function PLAYER:FlashlightIsOn()
 	return self:GetNWBool("DynamicFlashlight")
@@ -52,4 +51,8 @@ hook.Add("Think", "dynamic_flashlight", function()
             end
         end
     end
+end)
+
+hook.Add("PostCleanupMap", "dynamic_flashlight", function()
+    cache = {}
 end)
